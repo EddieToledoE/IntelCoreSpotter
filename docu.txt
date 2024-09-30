@@ -1,0 +1,28 @@
+INTEGRANTES:
+221262 REYES RUIZ Yazmin
+223191 TOLEDO ESPINOSA Luis Eddie
+
+Intel Core Spotter reconocerá no solo los procesadores Intel Core iX, sino también los procesadores de las líneas Xeon, Pentium, Celeron, Atom, Core M y Itanium.
+
+Ejemplos válidos:
+intel core i7-9900K
+i7
+core i3 12700F
+core i5
+intel core i5
+intel i3
+i3 14900F
+Intel Xeon Gold 6130
+Pentium Gold G6400
+Celeron N4020
+Atom x5-Z8350
+Itanium 9560
+Core m3-7Y30
+i5
+Ejemplos inválidos:
+intel i4-12900K  # No existe la línea i4
+core i5 12900X   # El sufijo X no es válido
+intel xeon silver 6123A  # El sufijo A no es válido para esta línea
+intel pentium bronze G6400  # La variante "bronze" no es permitida
+i7-129  # El número de SKU es demasiado corto
+Intel Core X9-9000K  # La línea X9 no es válida
