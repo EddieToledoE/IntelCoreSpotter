@@ -1,0 +1,3 @@
+Fila 1, Columna 16: i7-9950hq 
+Fila 2, Columna 7: i7 5th 
+Fila 3, Columna 25: i3-150 
