@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext
 from main import procesar_automata_letras
 from Itanium import procesar_automata_itanium
-
+from xeon import procesar_automata_xeon
 # Función para seleccionar el archivo
 def seleccionar_archivo():
     archivo = filedialog.askopenfilename(
@@ -29,6 +29,7 @@ def procesar_archivo():
                 linea_lower = linea.lower()  # Convertir la línea a minúsculas
                 procesar_automata_letras(linea_lower, i, ocurrencias)
                 procesar_automata_itanium(linea_lower, i, ocurrencias)
+                procesar_automata_xeon(linea_lower, i, ocurrencias)
         if ocurrencias:
             for ocurrencia in ocurrencias:
                 resultado.insert(tk.END, f"Fila {ocurrencia['fila']}, Columna {ocurrencia['columna']}: {ocurrencia['texto']}\n")

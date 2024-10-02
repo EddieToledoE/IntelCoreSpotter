@@ -1,11 +1,11 @@
 
 # RECORDAR CHECAR QUE CUANDO VALIDAS EL ELSE: FINAL Y PONES EL BUFFER MAS LETRA PROBABLEMENTE ESTE MAL PQ ESA LETRA X QUE IGNORA PUES SE AGREGA AL BUFFER Y NO DEBERIA ()
 # Función para procesar el texto letra por letra
-def procesar_automata_xeon(texto):
+def procesar_automata_xeon(texto,fila,ocurrencias):
     estado = "inicial"
     buffer = ""  # Almacenará las letras mientras se procesa
+    for columna, letra in enumerate(texto, start=1):
 
-    for letra in texto:
         if estado == "inicial":
             if letra == "x":
                 estado = "x"
@@ -1217,10 +1217,10 @@ def procesar_automata_xeon(texto):
 
         # Si llega al estado final, significa que la cadena es válida
         if estado == "final":
+            ocurrencias.append({"fila": fila, "columna": columna, "texto": buffer})
             print(f"Cadena válida: {buffer}")
             buffer = ""
             estado = "inicial"  # Reiniciar el autómata para procesar nuevas cadenas
         elif estado == "invalido":
             buffer = ""
             estado = "inicial"
-

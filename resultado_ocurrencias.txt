@@ -9,3 +9,8 @@ Fila 4, Columna 24: i7-9995h
 Fila 4, Columna 15: itanium 9130 n 
 Fila 6, Columna 16: intel i5-10705k
 
+Fila 7, Columna 17: core xeon 4209-t
+
+Fila 8, Columna 23: intel core xeon 5418 s.
+Fila 9, Columna 10: xeon 3204
+
