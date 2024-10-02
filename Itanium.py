@@ -1,252 +1,449 @@
-# Definimos los sufijos válidos y los procesadores admitidos
-sufijos_validos_ix = {"K", "F", "U", "T","G"}
-sufijos_validos_xeon = {"W", "D", "M", "L", "T", "V", "R", "S", "E", "A"}
-sujifos_validos_atom = {"C", "E", "Z", "P", "S", "T", "X", "Y", "N", "L", "M", "Q", "D", "B", "G", "H", "J", "K", "R", "U", "V", "W"}
-modelos_validos_ix = {
-    "i3", "i5", "i7", "i9"
-}
-
-
-
 
 # Función para procesar el texto letra por letra
-def procesar_automata_letras(texto):
+def procesar_automata_itanium(texto,fila,ocurrencias):
     estado = "inicial"
     buffer = ""  # Almacenará las letras mientras se procesa
+    for columna, letra in enumerate(texto, start=1):
 
-    for letra in texto:
         if estado == "inicial":
             if letra == "i":
-                estado = 'inicio_i'
-                buffer += letra  
-            elif letra == "c" :
+                buffer += letra
+                estado = "inicio_i"
+            elif letra == "c":
                 buffer += letra
                 estado = "inicio_c"
-            elif letra == "x":
-                buffer += letra
-                estado = "inicio_x"
-            elif letra == "a":
-                buffer += letra
-                estado = "inicio_a"
-            elif letra == "p":
-                buffer += letra
-                estado = "inicio_p" 
             else:
                 estado = "invalido"
-                buffer = ""  # Reinicia el buffer si no es válido
-
+                buffer = ""
+        
         elif estado == "inicio_i":
-            buffer += letra
-            print(buffer)
-            if buffer in modelos_validos_ix:
-                estado = "ix"
+            if letra == "t":
+                buffer += letra
+                estado = "it"
             elif letra == "n":
+                buffer += letra
                 estado = "in"
-            elif letra == "t":
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "in":
+            if letra == "t":
+                buffer += letra
+                estado = "int"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "int":
+            if letra == "e":
+                buffer += letra
+                estado = "inte"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "inte":
+            if letra == "l":
+                buffer += letra
+                estado = "intel"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "intel":
+            if letra == " ":
+                buffer += letra
+                estado = "intel_espacio"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "intel_espacio":
+            if letra == "c":
+                buffer += letra
+                estado = "inicio_c"
+            elif letra == "i":
+                buffer += letra
+                estado = "intel_i"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "intel_i":
+            if letra == "t":
+                buffer += letra
+                estado = "ix"
+            else:
+                estado = "invalido"
+                buffer = ""
+               
+        elif estado == "inicio_c":
+            if letra == "o":
+                buffer += letra
+                estado = "co"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "co":
+            if letra == "r":
+                buffer += letra
+                estado = "cor"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "cor":
+            if letra == "e":
+                buffer += letra
+                estado = "core"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "core":
+            if letra == " ":
+                buffer += letra
+                estado = "core_espacio"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "core_espacio":
+            if letra == "i":
+                buffer += letra
+                estado = "core_i"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "core_i": 
+            if letra == "t":
+                buffer += letra
                 estado = "it"
             else:
                 estado = "invalido"
                 buffer = ""
 
-        elif estado == "ix":
-            print(f'Llego a ix : {buffer}')
-            if letra == "-" or letra == " ":
+        elif estado == "it":
+            if letra == "a":
                 buffer += letra
-                estado = "ix_separador"
-            elif letra == "\n":
-                estado = "final"
-            elif letra.isdigit():
+                estado = "ita"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "ita":
+            if letra == "n":
                 buffer += letra
-                estado = "ix_generacion"
+                estado = "itan"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "itan":
+            if letra == "i":
+                buffer += letra
+                estado = "itani"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "itani":
+            if letra == "u":
+                buffer += letra
+                estado = "itaniu"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "itaniu":
+            if letra == "m":
+                buffer += letra
+                estado = "itanium"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "itanium":
+            print("Llego a itanium : "+ buffer)
+            if letra == "-" or letra == " ": 
+                buffer += letra
+                estado = "itanium-"
             else:
                 estado = "invalido"
                 buffer = ""
 
-        elif estado == "ix_separador":
-            print(f'Llego a ix_separador : {buffer}')
-            if letra == " " or letra == "\n" or letra == "-":
-                buffer += letra
-                estado = "invalido"
-            elif letra.isdigit() and letra != "0":  # Aceptar cualquier dígito excepto "0"
-                buffer += letra
-                if letra == "1":
-                    estado = "ix_generacion_1"
-                else:
-                    estado = "ix_generacion_n"
-            else:
-                estado = "invalido"
-                buffer = ""    
-
-        elif estado == "ix_generacion_1":
-            print(f'Llego a ix_generacion_1 : {buffer}')
-            if letra == " " or letra == "\n":
-                buffer += letra
-                estado = "final"
-            elif letra.isdigit():
-                if letra == "1" or letra == "2" or letra == "3" or letra == "4":
-                    buffer += letra
-                    estado = "ix_generacion_1w"
-                else:
-                    buffer += letra
-                    estado = "ix_generacion_1x"
-            else:
-                estado = "invalido"
-                buffer = ""
-
-        elif estado == "ix_generacion_1w":
-            print(f'Llego a ix_generacion_1w : {buffer}')
-            if letra.isdigit() and letra != "0":
-                buffer += letra
-                estado = "ix_generacion_1xx"
-            else:
-                estado = "invalido"
-                buffer = ""
-
-        elif estado == "ix_generacion_1x":
-            print(f'Llego a ix_generacion_1x : {buffer}')
+        elif estado == "itanium-":
             if letra.isdigit():
-                if letra != "0":
+                if letra == "2":
+                    estado = "itanium-2"
                     buffer += letra
-                    estado = "ix_generacion_1xx"
-                else:
+                elif letra == "9":
+                    estado = "itanium-9"
                     buffer += letra
-                    estado = "ix_generacion_1xxx"
             else:
                 estado = "invalido"
-                buffer = ""
-
-        elif estado == "ix_generacion_1xx":
-            print(f'Llego a ix_generacion_1xx : {buffer}')
-            if letra.isdigit():
                 buffer += letra
-                estado = "ix_generacion_1xxx"
-            else:
-                estado = "invalido"
-                buffer = ""
-
-        elif estado == "ix_generacion_1xxx":
-            print(f'Llego a ix_generacion_1xxx : {buffer}')
-            if letra == "\n":
-                buffer += letra
-                estado = "final"
-            elif letra.isdigit() and (letra == '5' or letra == '0'):
-                buffer += letra
-                estado = "ix_generacion_nxxx"    
-            elif letra.upper() in sufijos_validos_ix:
-                buffer += letra
-                estado = "final"
-            elif letra.upper() == "H":
-                buffer += letra
-                estado = "ix_generacion_nxxxH"
-            elif letra == " ":    
-                buffer += letra
-                estado = "ix_generacion_nxxx_"
-            else:
-                estado = "invalido"
-                buffer = ""
-
-        elif estado == "ix_generacion_n":
-            print(f'Llego a ix_generacion_n : {buffer}')
-            if letra == " " or letra == "\n":
-                buffer += letra
-                estado = "final"
-            elif letra.isdigit():
-                buffer += letra
-                estado = "ix_generacion_nx"
-            else:
-                estado = "invalido"
-                buffer = ""
-        elif estado == "ix_generacion_nx":
-            print(f'Llego a ix_generacion_nx : {buffer}')
-            if letra.isdigit():
-                buffer += letra
-                estado = "ix_generacion_nxx"
-            else:
-                estado = "invalido"
-                buffer = ""
-
-        elif estado == "ix_generacion_nxx":
-            print(f'Llego a ix_generacion_nxx : {buffer}')
-            if letra.isdigit() and (letra == '5' or letra == '0'):
-                buffer += letra
-                estado = "ix_generacion_nxxx"
-            else:
-                estado = "invalido"
-                buffer = ""
-
-        elif estado == "ix_generacion_nxxx":
-            print(f'Llego a ix_generacion_nxxx : {buffer}')
-            if letra == "\n":
-                buffer += letra
-                estado = "final"
-            elif letra.upper() in sufijos_validos_ix:
-                buffer += letra
-                estado = "final"
-            elif letra.upper() == "H":
-                buffer += letra
-                estado = "ix_generacion_nxxxH"
-            elif letra == " ":    
-                buffer += letra
-                estado = "ix_generacion_nxxx_"
-            else:
-                estado = "invalido"
-                buffer = ""
-        elif estado == "ix_generacion_nxxx_":
-            print(f'Llego a ix_generacion_nxxx_ : {buffer}')
-            if letra == "\n":
-                buffer += letra
-                estado = "final"
-            elif letra.upper() in sufijos_validos_ix:
-                buffer += letra
-                estado = "final"
-            elif letra.upper() == "H":
-                buffer += letra
-                estado = "ix_generacion_nxxxH"
-            else:
-                estado = "invalido"
-                buffer = ""
-
-        elif estado == "ix_generacion_nxxxA":
-            print(f'Llego a ix_generacion_nxxxA : {buffer}')
-            if letra == "\n":
-                buffer += letra
-                estado = "final"
-            elif letra.upper() in sufijos_validos_ix:
-                buffer += letra
-                estado = "final"
-            elif letra.upper() == "H":
-                buffer += letra
-                estado = "ix_generacion_nxxxH"    
-            else:
-                estado = "invalido"
-                buffer = ""   
-
-        elif estado == "ix_generacion_nxxxH":
-            print(f'Llego a ix_generacion_nxxxH : {buffer}')
-            if letra == "\n":
-                buffer += letra
-                estado = "final"
-            elif letra.upper() == "Q":
-                buffer += letra
-                estado = "final"
-            else:
-                estado = "invalido"
-                buffer = ""     
-
-        elif estado == "inicio_c":
-            buffer += letra
-            if letra == "o":
-                estado = "co"
-            elif letra == "e":
-                estado = "ce"
-            else:
-                estado = "invalido"
-                buffer = ""    
-
        
+        elif estado == "itanium-2":
+            if letra == " " or letra == "-":
+                estado = "itanium-2-"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra    
 
+
+        elif estado == "itanium-2-":
+            if letra.isdigit():
+                if letra == "0" or letra == "1" or letra == "2" :
+                    estado = "itanium-2-n"
+                    buffer += letra
+                elif letra == "9":
+                    estado = "itanium-2-9"
+                    buffer += letra    
+            else:
+                estado = "invalido"
+                buffer += letra
+
+        elif estado == "itanium-2-n":
+            if letra == ".":
+                estado = "itanium-2-n."
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra
+
+        elif estado == "itanium-2-n.":
+            if letra.isdigit():
+                if letra == "0" or letra == "1" or letra == "2" or letra == "3" or letra == "4" or letra == "5" or letra == "6" or letra == "7" or letra == "8" or letra == "9":
+                    estado = "itanium-2-n.n"
+                    buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra        
+
+        elif estado == "itanium-2-n.n":
+            if letra == " " or letra == "\n" or letra == "\t":
+                estado = "final"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra
+
+        elif estado == "itanium-2-9":
+            if letra.isdigit():
+                if letra == "0" :
+                    estado = "itanium-2-90"
+                    buffer += letra
+                else:
+                    estado = "invalido"
+                    buffer += letra    
+            else:
+                estado = "invalido"
+                buffer += letra
+
+        elif estado == "itanium-2-90":        
+            if letra.isdigit():
+                if letra == "0" :
+                    estado = "itanium-2-900"
+                    buffer += letra
+                else:
+                    estado = "invalido"
+                    buffer += letra    
+            else:
+                estado = "invalido"
+                buffer += letra
+
+
+        elif estado == "itanium-2-900":
+            if letra == " " or letra == "\n" or letra == "\t":
+                estado = "final"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra 
+
+
+        elif estado == "itanium-9":
+            if letra.isdigit():
+                if letra == "0":
+                    estado = "itanium-90"
+                    buffer += letra
+                elif letra == "1":
+                    estado = "itanium-91"
+                    buffer += letra   
+                elif letra == "3":
+                    estado = "itanium-93"
+                    buffer += letra
+                elif letra == "5":
+                    estado = "itanium-95"
+                    buffer += letra
+                elif letra == "7":
+                    estado = "itanium-97"
+                    buffer += letra
+                else:
+                    estado = "invalido"
+                    buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra     
+                        
+
+        elif estado == "itanium-90":
+            if letra.isdigit():
+                if letra == "1" or letra == "2" or letra == "3" or letra == "4" or letra == "5" :
+                    estado = "itanium-90n"
+                    buffer += letra
+                else:
+                    estado = "invalido"
+                    buffer += letra      
+
+        elif estado == "itanium-90n":
+            if letra == "0":
+                estado = "itanium-90n0"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra      
+
+        elif estado == "itanium-90n0":
+            if letra == " " or letra == "\n" or letra == "\t":
+                estado = "final"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra
+
+        elif estado == "itanium-91":
+            if letra.isdigit():
+                if letra == "0" or letra == "1" or letra == "2" or letra == "3" or letra == "4" or letra == "5":
+                    estado = "itanium-91n"
+                    buffer += letra
+                else:
+                    estado = "invalido"
+                    buffer += letra          
+
+        elif estado == "itanium-91n":
+            if letra == "0":
+                estado = "itanium-91n0"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra
+
+        elif estado == "itanium-91n0":
+            if letra == " " or letra == "-":
+                estado = "itanium-91n0-"
+                buffer += letra
+            elif letra == "\n" or letra == "\t":
+                estado = "final"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra        
+
+        elif estado == "itanium-91n0-":
+            if letra == "n":
+                estado = "itanium-91n0-n"
+                buffer += letra    
+            elif letra.isdigit():
+                estado = "invalido"
+                buffer += letra
+            else:
+                estado = "final"
+                buffer += letra
+
+        elif estado == "itanium-91n0-n":
+            if letra == " " or letra == "\n" or letra == "\t":
+                estado = "final"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra
+
+        elif estado == "itanium-93":
+            if letra.isdigit():
+                if letra == "0" or letra == "1" or letra == "2" or letra == "3" or letra == "4" or letra == "5":
+                    estado = "itanium-93n"
+                    buffer += letra
+                else:
+                    estado = "invalido"
+                    buffer += letra
+
+        elif estado == "itanium-93n":
+            if letra == "0":
+                estado = "itanium-93n0"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra
+        
+        elif estado == "itanium-93n0":
+            if letra == " " or letra == "\n" or letra == "\t":
+                estado = "final"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra
+
+        elif estado == "itanium-95":
+            if letra.isdigit():
+                if letra == "0" or letra == "1" or letra == "2" or letra == "4" or letra == "6" or letra == "8":
+                    estado = "itanium-95n"
+                    buffer += letra
+                else:
+                    estado = "invalido"
+                    buffer += letra          
+
+        elif estado == "itanium-95n":
+            if letra == "0":
+                estado = "itanium-95n0"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra
+        
+        elif estado == "itanium-95n0":
+            if letra == " " or letra == "\n" or letra == "\t":
+                estado = "final"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra
+
+
+        elif estado == "itanium-97":
+            if letra.isdigit():
+                if letra == "2" or letra == "4" or letra == "5" or letra == "6":
+                    estado = "itanium-97n"
+                    buffer += letra
+                else:
+                    estado = "invalido"
+                    buffer += letra      
+
+        elif estado == "itanium-97n":
+            if letra == "0":
+                estado = "itanium-97n0"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra   
+
+        elif estado == "itanium-97n0":
+            if letra == " " or letra == "\n" or letra == "\t":
+                estado = "final"
+                buffer += letra
+            else:
+                estado = "invalido"
+                buffer += letra
+
+        
         # Si llega al estado final, significa que la cadena es válida
         if estado == "final":
+            ocurrencias.append({"fila": fila, "columna": columna, "texto": buffer})
             print(f"Cadena válida: {buffer}")
             buffer = ""
             estado = "inicial"  # Reiniciar el autómata para procesar nuevas cadenas
@@ -254,22 +451,3 @@ def procesar_automata_letras(texto):
             buffer = ""
             estado = "inicial"
 
-# Función para leer el documento y procesar letra por letra
-def leer_documento_y_procesar(nombre_archivo):
-    try:
-        with open(nombre_archivo, 'r') as archivo:
-            contenido = archivo.read().lower()
-            return contenido
-    except FileNotFoundError:
-        print(f"El archivo {nombre_archivo} no fue encontrado.")
-        return ""
-
-# Nombre del archivo de texto
-nombre_archivo = 'prueba.txt'
-
-# Leer el documento
-contenido = leer_documento_y_procesar(nombre_archivo)
-
-# Procesar el autómata letra por letra si el archivo se leyó correctamente
-if contenido:
-    procesar_automata_letras(contenido)

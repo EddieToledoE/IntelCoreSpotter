@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 import os
 from main import procesar_automata_letras
-
+from Itanium import procesar_automata_itanium
+# MANDAR A LLAMAR A LAS 3 FUNCIONES DE AUTOMATA, LAS 3 PARA EL MISMO TEXTO Y DE ESA FORMA REPORTAMOS LAS INCIDENCIAS
 # Función para seleccionar el archivo
 def seleccionar_archivo():
     archivo = filedialog.askopenfilename(
@@ -28,7 +29,7 @@ def procesar_archivo():
             for i, linea in enumerate(lineas, start=1):
                 linea_lower = linea.lower()  # Convertir la línea a minúsculas
                 procesar_automata_letras(linea_lower, i, ocurrencias)
-        
+                procesar_automata_itanium(linea_lower, i, ocurrencias)
         if ocurrencias:
             for ocurrencia in ocurrencias:
                 resultado.insert(tk.END, f"Fila {ocurrencia['fila']}, Columna {ocurrencia['columna']}: {ocurrencia['texto']}\n")

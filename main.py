@@ -7,42 +7,144 @@ modelos_validos_ix = {
 
 def procesar_automata_letras(texto,fila,ocurrencias):
     estado = "inicial"
-    buffer = "" 
+    buffer = ""
     for columna, letra in enumerate(texto, start=1):
+
         if estado == "inicial":
             if letra == "i":
-                estado = 'inicio_i'
-                buffer += letra  #aca tenemos i 
-            elif letra == "c" :
+                buffer += letra
+                estado = "inicio_i"
+            elif letra == "c":
                 buffer += letra
                 estado = "inicio_c"
-            elif letra == "x":
-                buffer += letra
-                estado = "inicio_x"
-            else:
-                estado = "invalido"
-                buffer = ""  # Reinicia el buffer si no es válido
-
-        elif estado == "inicio_i":
-            if letra == "3" or letra == "5" or letra == "7" or letra == "9":
-                estado = "ix"
-                buffer += letra
-            elif letra == "n":
-                estado = "in" 
-                buffer += letra
-            elif letra == "t":
-                estado = "it"
-                buffer += letra
             else:
                 estado = "invalido"
                 buffer = ""
-
+                
+        elif estado == "inicio_i":
+            if letra == "3" or letra == "5" or letra == "7" or letra == "9":
+                buffer += letra
+                estado = "ix"
+            elif letra == "n":
+                buffer += letra
+                estado = "in"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "in":
+            if letra == "t":
+                buffer += letra
+                estado = "int"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "int":
+            if letra == "e":
+                buffer += letra
+                estado = "inte"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "inte":
+            if letra == "l":
+                buffer += letra
+                estado = "intel"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "intel":
+            if letra == " ":
+                buffer += letra
+                estado = "intel_espacio"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "intel_espacio":
+            if letra == "c":
+                buffer += letra
+                estado = "inicio_c"
+            elif letra == "i":
+                buffer += letra
+                estado = "intel_i"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "intel_i":
+            if letra.isdigit():
+                if letra == "3" or letra == "5" or letra == "7" or letra == "9":
+                    buffer += letra
+                    estado = "ix"
+                else:
+                    estado = "invalido"
+                    buffer = ""
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "inicio_c":
+            if letra == "o":
+                buffer += letra
+                estado = "co"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "co":
+            if letra == "r":
+                buffer += letra
+                estado = "cor"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "cor":
+            if letra == "e":
+                buffer += letra
+                estado = "core"
+            else:
+                estado = "invalido"
+                buffer = ""
+                
+        elif estado == "core":
+            if letra == " ":
+                buffer += letra
+                estado = "core_espacio"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "core_espacio":
+            if letra == "i":
+                buffer += letra
+                estado = "core_i"
+            else:
+                estado = "invalido"
+                buffer = ""
+        
+        elif estado == "core_i":
+            if letra.isdigit():
+                if letra == "3" or letra == "5" or letra == "7" or letra == "9":
+                    buffer += letra
+                    estado = "ix"
+                else:
+                    estado = "invalido"
+                    buffer = ""
+            else:
+                estado = "invalido"
+                buffer = ""
+        
         elif estado == "ix":
-            print(f'Llego a ix : {buffer}')
+            print(f'Llego a ix metodo : {buffer}')
             if letra == "-" or letra == " ":
                 buffer += letra
                 estado = "ix_separador"
-            elif letra == "\n":
+            elif letra == "\n" or letra == "\t":
                 estado = "final"
             else:
                 estado = "invalido"
@@ -250,7 +352,7 @@ def procesar_automata_letras(texto,fila,ocurrencias):
             ocurrencias.append({"fila": fila, "columna": columna, "texto": buffer})
             print(f"Cadena válida: {buffer}")
             buffer = ""
-            estado = "inicial"  # Reiniciar el autómata para procesar nuevas cadenas
+            estado = "inicial"
         elif estado == "invalido":
             buffer = ""
             estado = "inicial"

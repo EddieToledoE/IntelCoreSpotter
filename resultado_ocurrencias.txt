@@ -1,3 +1,11 @@
-Fila 1, Columna 16: i7-9950hq 
-Fila 2, Columna 7: i7 5th 
+Fila 1, Columna 21: core i7-9950hq 
+Fila 1, Columna 65: itanium 9560
+
+Fila 2, Columna 12: core i5 5th 
+Fila 2, Columna 64: intel core i3 9th 
 Fila 3, Columna 25: i3-150 
+Fila 4, Columna 24: i7-9995h
+
+Fila 4, Columna 15: itanium 9130 n 
+Fila 6, Columna 16: intel i5-10705k
+
