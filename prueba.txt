@@ -5,5 +5,5 @@ itanium 9130 n I7-9995H
 itanium 9130estenovalejiji
 Intel i5-10705K
 core xeon 4209-t
-intel core xeon 5418 s.
+intel core xeon 5418s.
 xeon 3204

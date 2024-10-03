@@ -1,16 +1,12 @@
-Fila 1, Columna 21: core i7-9950hq 
-Fila 1, Columna 65: itanium 9560
-
-Fila 2, Columna 12: core i5 5th 
-Fila 2, Columna 64: intel core i3 9th 
-Fila 3, Columna 25: i3-150 
-Fila 4, Columna 24: i7-9995h
-
-Fila 4, Columna 15: itanium 9130 n 
-Fila 6, Columna 16: intel i5-10705k
-
-Fila 7, Columna 17: core xeon 4209-t
-
-Fila 8, Columna 23: intel core xeon 5418 s.
-Fila 9, Columna 10: xeon 3204
-
+Fila 1, Columna -5: i3 9th
+Fila 1, Columna 7: core i7-9950hq
+Fila 2, Columna 1: core i5 5th
+Fila 2, Columna 47: intel core i3 9th
+Fila 3, Columna 19: i3-150
+Fila 4, Columna 1: itanium 9130 n
+Fila 4, Columna 16: i7-9995h
+Fila 5, Columna 1: itanium 9130
+Fila 6, Columna 1: intel i5-10705k
+Fila 7, Columna 1: core xeon 4209
+Fila 8, Columna 1: intel core xeon 5418s
+Fila 9, Columna 1: xeon 3204
