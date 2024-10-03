@@ -2,14 +2,31 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext
 from IntelCoreSpotter import automata
 import csv
+import docx
 
 def seleccionar_archivo():
     archivo = filedialog.askopenfilename(
         title="Seleccionar archivo", 
-        filetypes=(("Archivos de texto", "*.txt"), ("Todos los archivos", "*.*"))
+        filetypes=(("Archivos de texto", "*.txt"), ("Archivos Word", "*.docx"), ("Todos los archivos", "*.*"))
     )
     if archivo:
         archivo_seleccionado.set(archivo)
+
+def leer_docx(archivo):
+    try:
+        doc = docx.Document(archivo)
+        contenido = []
+        for parrafo in doc.paragraphs:
+            linea = parrafo.text.strip()  # Remover espacios en blanco al inicio y al final
+            # Reemplazar saltos de línea y caracteres no visibles
+            linea = linea.replace('\n', ' ').replace('\r', '').strip()
+            print(linea)
+            contenido.append(linea)
+        return contenido
+    except Exception as e:
+        print(f"Error al leer el archivo .docx: {e}")
+        messagebox.showerror("Error", f"No se pudo leer el archivo .docx. Verifica que sea un archivo válido de Word.")
+        return []
 
     
 def procesar_archivo():
@@ -22,8 +39,13 @@ def procesar_archivo():
     ocurrencias = [] 
     
     try:
-        with open(archivo, 'r') as f:
-            lineas = f.readlines()  # Leer todas las líneas del archivo
+        if archivo.endswith(".docx"):
+            lineas = leer_docx(archivo)
+        else:
+            with open(archivo, 'r') as f:
+                lineas = f.readlines()  # Leer todas las líneas del archivo
+                
+                
             for i, linea in enumerate(lineas, start=1):
                 linea_lower = linea.lower()  # Convertir la línea a minúsculas
                 for columna, simbolo in enumerate(linea_lower, start=1):
